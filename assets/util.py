@@ -77,14 +77,22 @@ class LoadedRom:
 
     if support_multilanguage:
       if self.language == None:
-        msg = f"\n\nROM with hash {hash} not supported.\n\nYou need one of the following ROMs to extract the resources:\n"
-        for k, v in ZELDA3_SHA1.items():
-          msg += '%5s: %s: %s\n' % (v[0], k, v[1])
-        raise Exception(msg)
-      print('Identified ROM as: %s - "%s"' % entry)
+        print(
+          f"Warning: ROM with hash {hash} not supported. Continuing anyway.",
+          file=sys.stderr,
+        )
+        self.language = 'us'
+        entry = ('us', 'Modified/translated US ROM')
+      else:
+        print('Identified ROM as: %s - "%s"' % entry)
     else:
       if self.language != 'us':
-        raise Exception(f"\n\nROM with hash {hash} not supported.\n\nExpected {ZELDA3_SHA1_US}.\nPlease verify your ROM is \"Legend of Zelda, The - A Link to the Past (USA)\"");
+        print(
+          f"Warning: ROM with hash {hash} not supported. "
+          f"Expected {ZELDA3_SHA1_US}. Continuing anyway.",
+          file=sys.stderr,
+        )
+        self.language = 'us'
 
   def get_byte(self, ea):
     assert (ea & 0x8000)
