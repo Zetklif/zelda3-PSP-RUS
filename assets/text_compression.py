@@ -429,7 +429,8 @@ def decode_strings_generic(get_byte, lang):
         if c == info.ESCAPE_CHARACTER:
           c = get_byte(p); p += 1
           srcdata.append(c)
-        s += info.alphabet[c]
+        if c < len(info.alphabet):
+          s += info.alphabet[c]
       elif c < info.SWITCH_BANK:
         if l == 2:
           srcdata.append(get_byte(p - 1))
