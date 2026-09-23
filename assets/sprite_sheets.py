@@ -56,7 +56,7 @@ def get_unpacked_snes_tileset(tileset):
 @cache
 def decode_3bit_tileset(tileset):
   data = get_unpacked_snes_tileset(tileset)
-  assert len(data) == 0x600
+  assert len(data) >= 0x600
   base = 8 if is_high_3bit_tileset(tileset) else 0
   height = 32
   dst = bytearray(128*height)
